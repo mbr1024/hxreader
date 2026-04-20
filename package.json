@@ -1,0 +1,54 @@
+{
+  "name": "@hxreader/monorepo",
+  "private": true,
+  "repository": "mbr1024/hxreader",
+  "scripts": {
+    "test": "pnpm --filter @readest/readest-app test",
+    "lint": "pnpm --filter @readest/readest-app lint",
+    "tauri": "pnpm --filter @readest/readest-app tauri",
+    "dev-web": "pnpm --filter @readest/readest-app dev-web",
+
+    "fmt:check": "pnpm --filter @readest/readest-app fmt:check",
+    "clippy:check": "pnpm --filter @readest/readest-app clippy:check",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,json,md,html,yml}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,css,json,md,html,yml}\""
+  },
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.9",
+    "@sindresorhus/tsconfig": "^6.0.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "typescript": "^5"
+  },
+
+  "pnpm": {
+    "overrides": {
+      "glob": ">=11.1.0",
+      "jws": ">=4.0.1",
+      "vite": ">=7.3.2 <8",
+      "srvx": ">=0.11.13",
+      "rollup": ">=4.59.0",
+      "undici": ">=7.24.0",
+      "flatted": ">=3.4.2",
+      "body-parser": ">=2.2.1",
+      "dompurify": ">=3.3.2",
+      "picomatch": ">=4.0.4",
+      "path-to-regexp": ">=8.4.0",
+      "serialize-javascript": ">=7.0.5",
+      "fast-xml-parser": ">=5.5.7",
+      "lodash": ">=4.18.0",
+      "lodash-es": ">=4.18.0",
+      "basic-ftp": ">=5.2.2",
+      "qs": ">=6.14.2",
+      "@babel/runtime": ">=7.26.10",
+      "@babel/helpers": ">=7.26.10",
+      "mdast-util-gfm-autolink-literal": "2.0.1",
+      "@ai-sdk/provider-utils": "4.0.8"
+    },
+    "patchedDependencies": {
+      "mdast-util-gfm-autolink-literal@2.0.1": "patches/mdast-util-gfm-autolink-literal@2.0.1.patch",
+      "@ai-sdk/provider-utils@4.0.8": "patches/@ai-sdk__provider-utils@4.0.8.patch"
+    }
+  }
+}

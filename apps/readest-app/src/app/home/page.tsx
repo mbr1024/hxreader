@@ -5,12 +5,7 @@ import {
   MdSearch,
   MdNotificationsNone,
   MdStarRate,
-  MdEmojiEvents,
-  MdCategory,
-  MdCardGiftcard,
-  MdAutoAwesome,
   MdChevronRight,
-  MdFormatQuote,
   MdRefresh,
 } from 'react-icons/md';
 import { useTheme } from '@/hooks/useTheme';
@@ -18,41 +13,72 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useThemeStore } from '@/store/themeStore';
 import { useTabBarPadding } from '@/components/BottomTabBar';
 
-const DAILY_QUOTES = [
-  { text: '学而不思则罔，思而不学则殆。', source: '《论语·为政》', author: '孔子' },
-  { text: '天行健，君子以自强不息。', source: '《周易·乾卦》', author: '佚名' },
-  { text: '知者乐水，仁者乐山。', source: '《论语·雍也》', author: '孔子' },
-  { text: '上善若水，水善利万物而不争。', source: '《道德经》第八章', author: '老子' },
-  { text: '路漫漫其修远兮，吾将上下而求索。', source: '《离骚》', author: '屈原' },
-  { text: '不以物喜，不以己悲。', source: '《岳阳楼记》', author: '范仲淹' },
-  { text: '吾生也有涯，而知也无涯。', source: '《庄子·养生主》', author: '庄子' },
+/* ── Data ─────────────────────────────────────────── */
+
+const DAILY_CLASSICS = [
+  {
+    quote: '学而不思则罔，思而不学则殆。',
+    quoteSource: '《论语·为政》',
+    poem: '静夜思',
+    poemAuthor: '李白',
+    poemDynasty: '唐',
+    poemText: '床前明月光，疑是地上霜。举头望明月，低头思故乡。',
+  },
+  {
+    quote: '天行健，君子以自强不息。',
+    quoteSource: '《周易·乾卦》',
+    poem: '登鹳雀楼',
+    poemAuthor: '王之涣',
+    poemDynasty: '唐',
+    poemText: '白日依山尽，黄河入海流。欲穷千里目，更上一层楼。',
+  },
+  {
+    quote: '上善若水，水善利万物而不争。',
+    quoteSource: '《道德经》第八章',
+    poem: '春晓',
+    poemAuthor: '孟浩然',
+    poemDynasty: '唐',
+    poemText: '春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。',
+  },
+  {
+    quote: '路漫漫其修远兮，吾将上下而求索。',
+    quoteSource: '《离骚》',
+    poem: '江雪',
+    poemAuthor: '柳宗元',
+    poemDynasty: '唐',
+    poemText: '千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。',
+  },
+  {
+    quote: '不以物喜，不以己悲。',
+    quoteSource: '《岳阳楼记》',
+    poem: '望庐山瀑布',
+    poemAuthor: '李白',
+    poemDynasty: '唐',
+    poemText: '日照香炉生紫烟，遥看瀑布挂前川。飞流直下三千尺，疑是银河落九天。',
+  },
+  {
+    quote: '吾生也有涯，而知也无涯。',
+    quoteSource: '《庄子·养生主》',
+    poem: '竹里馆',
+    poemAuthor: '王维',
+    poemDynasty: '唐',
+    poemText: '独坐幽篁里，弹琴复长啸。深林人不知，明月来相照。',
+  },
+  {
+    quote: '知者乐水，仁者乐山。',
+    quoteSource: '《论语·雍也》',
+    poem: '鹿柴',
+    poemAuthor: '王维',
+    poemDynasty: '唐',
+    poemText: '空山不见人，但闻人语响。返景入深林，复照青苔上。',
+  },
 ];
 
-const POEM_OF_DAY = {
-  title: '静夜思',
-  author: '李白',
-  dynasty: '唐',
-  lines: ['床前明月光，', '疑是地上霜。', '举头望明月，', '低头思故乡。'],
-};
-
-const CULTURE_CARDS = [
-  { emoji: '🏮', title: '传统节气', subtitle: '谷雨', desc: '春季最后一个节气，雨生百谷' },
-  { emoji: '🎭', title: '今日典故', subtitle: '程门立雪', desc: '尊师重道，虚心求学' },
-  { emoji: '🖌️', title: '汉字溯源', subtitle: '道', desc: '从首从辶，本义为道路引申为规律' },
-  { emoji: '🎵', title: '古乐欣赏', subtitle: '高山流水', desc: '伯牙子期，知音难觅' },
-];
-
-const BANNERS = [
-  { title: '经史子集 · 国学经典', subtitle: '千年智慧 一卷在手', color: 'from-amber-700 to-yellow-900' },
-  { title: '唐诗宋词精读计划', subtitle: '每日一首 品味风雅', color: 'from-emerald-700 to-teal-800' },
-  { title: '古文观止 · 名篇赏析', subtitle: '文以载道 字字珠玑', color: 'from-red-800 to-rose-900' },
-];
-
-const CATEGORIES = [
-  { icon: MdEmojiEvents, label: '经典榜', color: 'text-amber-600 bg-amber-50' },
-  { icon: MdCategory, label: '分类', color: 'text-blue-500 bg-blue-50' },
-  { icon: MdCardGiftcard, label: '免费', color: 'text-emerald-500 bg-emerald-50' },
-  { icon: MdAutoAwesome, label: '精选', color: 'text-purple-500 bg-purple-50' },
+const SIBU = [
+  { label: '经部', desc: '儒学经典', color: 'bg-red-800 text-white' },
+  { label: '史部', desc: '历代史书', color: 'bg-amber-800 text-white' },
+  { label: '子部', desc: '诸子百家', color: 'bg-emerald-800 text-white' },
+  { label: '集部', desc: '诗文词赋', color: 'bg-blue-800 text-white' },
 ];
 
 const RECOMMENDED_BOOKS = [
@@ -72,20 +98,22 @@ const RANKING_BOOKS = [
   { title: '菜根谭', author: '洪应明', tag: '格言', readers: '38.7万' },
 ];
 
-const GUESS_BOOKS = [
-  { title: '传习录', author: '王阳明', desc: '知行合一，致良知，心学之集大成者' },
-  { title: '浮生六记', author: '沈复', desc: '布衣菜饭，可乐终身，不必远游' },
-  { title: '人间词话', author: '王国维', desc: '三种境界说，词学批评之巅峰' },
-  { title: '梦溪笔谈', author: '沈括', desc: '中国科学史上的里程碑式著作' },
+const CULTURE_TIDBITS = [
+  { emoji: '🏮', label: '谷雨', desc: '雨生百谷' },
+  { emoji: '🎭', label: '程门立雪', desc: '尊师重道' },
+  { emoji: '🖌️', label: '道', desc: '汉字溯源' },
+  { emoji: '🎵', label: '高山流水', desc: '知音难觅' },
 ];
+
+/* ── Component ────────────────────────────────────── */
 
 const HomePage = () => {
   const _ = useTranslation();
   useTheme({ systemUIVisible: true, appThemeColor: 'base-200' });
   const { safeAreaInsets } = useThemeStore();
   const tabBarPadding = useTabBarPadding();
-  const [bannerIndex, setBannerIndex] = useState(0);
-  const [quoteIndex, setQuoteIndex] = useState(() => new Date().getDate() % DAILY_QUOTES.length);
+  const [dailyIndex, setDailyIndex] = useState(() => new Date().getDate() % DAILY_CLASSICS.length);
+  const daily = DAILY_CLASSICS[dailyIndex]!;
 
   const todayDate = useMemo(() => {
     const d = new Date();
@@ -98,7 +126,7 @@ const HomePage = () => {
 
   return (
     <div className='bg-base-200 min-h-screen' style={{ paddingTop: safeAreaInsets?.top ?? 0 }}>
-      {/* Header */}
+      {/* ── Header ── */}
       <header className='bg-base-100 flex items-center gap-3 px-4 py-2'>
         <div className='bg-base-200 flex flex-1 items-center gap-2 rounded-full px-3 py-2'>
           <MdSearch className='text-base-content/40 text-lg' />
@@ -111,119 +139,109 @@ const HomePage = () => {
       </header>
 
       <main className='space-y-4 p-4' style={{ paddingBottom: tabBarPadding }}>
-        {/* Banner */}
-        <div className='relative overflow-hidden rounded-xl'>
-          <div
-            className={`bg-gradient-to-br ${BANNERS[bannerIndex]!.color} flex h-36 flex-col justify-end p-4 text-white`}
-          >
-            <h2 className='text-xl font-bold'>{BANNERS[bannerIndex]!.title}</h2>
-            <p className='mt-1 text-sm text-white/80'>{BANNERS[bannerIndex]!.subtitle}</p>
-          </div>
-          <div className='absolute bottom-2 right-3 flex gap-1'>
-            {BANNERS.map((_b, i) => (
-              <button
-                key={i}
-                onClick={() => setBannerIndex(i)}
-                className={`h-1.5 rounded-full transition-all ${i === bannerIndex ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`}
-              />
-            ))}
-          </div>
-        </div>
 
-        {/* Daily Classic Quote */}
-        <section className='bg-base-100 relative overflow-hidden rounded-xl p-4'>
-          <div className='absolute -right-4 -top-4 text-[80px] leading-none text-amber-100/50'>
-            <MdFormatQuote />
-          </div>
-          <div className='mb-2 flex items-center justify-between'>
+        {/* ─────────────────────────────────────────
+            Zone 1 · 每日一课  —— 视觉焦点
+            Quote + Poem 合一，沉浸式大卡片
+        ───────────────────────────────────────── */}
+        <section className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-800 to-yellow-950 p-5 text-white'>
+          {/* decorative seal */}
+          <div className='absolute -right-6 -top-6 h-28 w-28 rounded-full border-[3px] border-white/10' />
+          <div className='absolute -right-3 -top-3 h-16 w-16 rounded-full border-[3px] border-white/10' />
+
+          {/* header row */}
+          <div className='mb-4 flex items-center justify-between'>
             <div className='flex items-center gap-2'>
-              <span className='rounded bg-amber-700 px-1.5 py-0.5 text-[10px] font-bold text-white'>
-                {_('每日经典')}
+              <span className='rounded border border-white/30 px-1.5 py-0.5 text-[10px] font-bold'>
+                {_('每日一课')}
               </span>
-              <span className='text-base-content/30 text-xs'>{todayDate}</span>
+              <span className='text-xs text-white/50'>{todayDate}</span>
             </div>
             <button
-              onClick={() => setQuoteIndex((prev) => (prev + 1) % DAILY_QUOTES.length)}
-              className='text-base-content/40 flex items-center gap-0.5 text-xs'
+              onClick={() => setDailyIndex((p) => (p + 1) % DAILY_CLASSICS.length)}
+              className='flex items-center gap-0.5 text-xs text-white/50'
             >
               <MdRefresh className='text-sm' />
-              {_('换一句')}
+              {_('换一篇')}
             </button>
           </div>
-          <p className='text-base-content relative z-10 my-2 text-lg font-serif leading-relaxed'>
-            「{DAILY_QUOTES[quoteIndex]!.text}」
-          </p>
-          <p className='text-base-content/50 text-xs'>
-            —— {DAILY_QUOTES[quoteIndex]!.author}
-            <span className='text-base-content/30 ml-1'>{DAILY_QUOTES[quoteIndex]!.source}</span>
-          </p>
-        </section>
 
-        {/* Category Icons */}
-        <div className='flex justify-around'>
-          {CATEGORIES.map((cat) => (
-            <button key={cat.label} className='flex flex-col items-center gap-1'>
-              <div className={`flex h-12 w-12 items-center justify-center rounded-full ${cat.color}`}>
-                <cat.icon className='text-2xl' />
-              </div>
-              <span className='text-base-content/80 text-xs'>{cat.label}</span>
-            </button>
-          ))}
-        </div>
+          {/* quote */}
+          <p className='mb-1 text-lg font-serif leading-relaxed'>
+            「{daily.quote}」
+          </p>
+          <p className='mb-5 text-xs text-white/50'>—— {daily.quoteSource}</p>
 
-        {/* Poem of the Day */}
-        <section className='bg-base-100 rounded-xl p-4'>
-          <div className='mb-3 flex items-center justify-between'>
-            <h2 className='text-base font-semibold'>{_('诗词日历')}</h2>
-            <span className='text-base-content/30 text-xs'>{_('每日一首')}</span>
-          </div>
-          <div className='flex gap-4'>
-            <div className='flex flex-col items-center justify-center rounded-lg bg-amber-700 px-3 py-2 text-white'>
-              <span className='text-[10px] text-white/70'>{POEM_OF_DAY.dynasty}</span>
-              <span className='text-lg font-bold'>{_('诗')}</span>
+          {/* divider */}
+          <div className='mb-4 border-t border-white/15' />
+
+          {/* poem */}
+          <div className='flex gap-3'>
+            <div className='flex flex-col items-center rounded-lg border border-white/20 px-2 py-1.5'>
+              <span className='text-[10px] text-white/50'>{daily.poemDynasty}</span>
+              <span className='text-base font-bold'>{_('诗')}</span>
             </div>
             <div className='flex-1'>
-              <div className='mb-1 flex items-baseline gap-2'>
-                <h3 className='text-base-content text-sm font-semibold'>{POEM_OF_DAY.title}</h3>
-                <span className='text-base-content/40 text-xs'>
-                  [{POEM_OF_DAY.dynasty}] {POEM_OF_DAY.author}
+              <p className='mb-0.5 text-sm font-semibold'>
+                {daily.poem}
+                <span className='ml-2 text-xs font-normal text-white/50'>
+                  {daily.poemAuthor}
                 </span>
-              </div>
-              <p className='text-base-content/70 text-sm font-serif leading-relaxed'>
-                {POEM_OF_DAY.lines.join('')}
+              </p>
+              <p className='text-sm font-serif leading-relaxed text-white/70'>
+                {daily.poemText}
               </p>
             </div>
           </div>
         </section>
 
-        {/* Culture Cards */}
-        <section>
-          <h2 className='mb-2 text-base font-semibold'>{_('文化长廊')}</h2>
-          <div className='-mx-4 flex gap-3 overflow-x-auto px-4 pb-1'>
-            {CULTURE_CARDS.map((card) => (
-              <div
-                key={card.title}
-                className='bg-base-100 flex w-36 flex-shrink-0 flex-col items-start rounded-xl p-3 shadow-sm'
+        {/* ─────────────────────────────────────────
+            Zone 2 · 四部分类 + 文化小识
+            紧凑导航区
+        ───────────────────────────────────────── */}
+        <div className='bg-base-100 rounded-2xl p-4'>
+          {/* 经史子集 */}
+          <div className='mb-3 grid grid-cols-4 gap-2'>
+            {SIBU.map((s) => (
+              <button
+                key={s.label}
+                className={`flex flex-col items-center rounded-xl ${s.color} py-2.5`}
               >
-                <span className='text-2xl'>{card.emoji}</span>
-                <span className='text-base-content/40 mt-1 text-[10px]'>{card.title}</span>
-                <h3 className='text-base-content text-sm font-semibold'>{card.subtitle}</h3>
-                <p className='text-base-content/50 mt-0.5 line-clamp-2 text-xs'>{card.desc}</p>
+                <span className='text-sm font-bold'>{s.label}</span>
+                <span className='text-[10px] text-white/60'>{s.desc}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 文化小识 strip */}
+          <div className='flex gap-2 overflow-x-auto'>
+            {CULTURE_TIDBITS.map((c) => (
+              <div
+                key={c.label}
+                className='bg-base-200 flex flex-shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5'
+              >
+                <span className='text-sm'>{c.emoji}</span>
+                <span className='text-base-content text-xs font-medium'>{c.label}</span>
+                <span className='text-base-content/40 text-[10px]'>{c.desc}</span>
               </div>
             ))}
           </div>
-        </section>
+        </div>
 
-        {/* Today's Recommendations - Horizontal Scroll */}
+        {/* ─────────────────────────────────────────
+            Zone 3 · 古籍推荐
+            横滑书卡 + 排行榜 合为一体
+        ───────────────────────────────────────── */}
         <section>
           <div className='mb-2 flex items-center justify-between'>
-            <h2 className='text-base font-semibold'>{_('今日推荐')}</h2>
+            <h2 className='text-base font-semibold'>{_('古籍推荐')}</h2>
             <button className='text-primary flex items-center text-xs'>
               {_('更多')}
               <MdChevronRight />
             </button>
           </div>
-          <div className='-mx-4 flex gap-3 overflow-x-auto px-4 pb-2'>
+          {/* book scroll */}
+          <div className='-mx-4 flex gap-3 overflow-x-auto px-4 pb-3'>
             {RECOMMENDED_BOOKS.map((book) => (
               <div key={book.title} className='w-28 flex-shrink-0'>
                 <div className='bg-base-300 flex aspect-[3/4] items-center justify-center rounded-lg'>
@@ -238,26 +256,23 @@ const HomePage = () => {
               </div>
             ))}
           </div>
-        </section>
 
-        {/* Hot Rankings */}
-        <section>
-          <div className='mb-2 flex items-center justify-between'>
-            <h2 className='text-base font-semibold'>{_('热门榜单')}</h2>
-            <button className='text-primary flex items-center text-xs'>
-              {_('完整榜单')}
-              <MdChevronRight />
-            </button>
-          </div>
+          {/* ranking list */}
           <div className='bg-base-100 divide-base-200 divide-y rounded-xl'>
+            <div className='flex items-center justify-between px-4 py-2.5'>
+              <span className='text-base-content text-sm font-semibold'>{_('阅读榜')}</span>
+              <button className='text-primary flex items-center text-xs'>
+                {_('完整榜单')}
+                <MdChevronRight />
+              </button>
+            </div>
             {RANKING_BOOKS.map((book, i) => (
-              <div key={book.title} className='flex items-center gap-3 px-4 py-3'>
+              <div key={book.title} className='flex items-center gap-3 px-4 py-2.5'>
                 <span
                   className={`w-5 text-center text-sm font-bold ${i < 3 ? 'text-primary' : 'text-base-content/30'}`}
                 >
                   {i + 1}
                 </span>
-                <div className='bg-base-300 h-12 w-9 flex-shrink-0 rounded' />
                 <div className='min-w-0 flex-1'>
                   <h3 className='text-base-content truncate text-sm font-medium'>{book.title}</h3>
                   <p className='text-base-content/50 text-xs'>
@@ -267,28 +282,12 @@ const HomePage = () => {
                     </span>
                   </p>
                 </div>
-                <span className='text-base-content/30 flex-shrink-0 text-xs'>{book.readers}人读过</span>
+                <span className='text-base-content/30 flex-shrink-0 text-xs'>{book.readers}</span>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Guess You Like - 2 Column Grid */}
-        <section>
-          <h2 className='mb-2 text-base font-semibold'>{_('猜你喜欢')}</h2>
-          <div className='grid grid-cols-2 gap-3'>
-            {GUESS_BOOKS.map((book) => (
-              <div key={book.title} className='bg-base-100 rounded-xl p-3 shadow-sm'>
-                <div className='bg-base-300 mb-2 flex aspect-[4/3] items-center justify-center rounded-lg'>
-                  <span className='text-base-content/20 text-2xl'>📖</span>
-                </div>
-                <h3 className='text-base-content truncate text-sm font-medium'>{book.title}</h3>
-                <p className='text-base-content/50 truncate text-xs'>{book.author}</p>
-                <p className='text-base-content/40 mt-1 line-clamp-2 text-xs'>{book.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
       </main>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   MdSearch,
   MdNotificationsNone,
@@ -10,11 +10,37 @@ import {
   MdCardGiftcard,
   MdAutoAwesome,
   MdChevronRight,
+  MdFormatQuote,
+  MdRefresh,
 } from 'react-icons/md';
 import { useTheme } from '@/hooks/useTheme';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useThemeStore } from '@/store/themeStore';
 import { useTabBarPadding } from '@/components/BottomTabBar';
+
+const DAILY_QUOTES = [
+  { text: '学而不思则罔，思而不学则殆。', source: '《论语·为政》', author: '孔子' },
+  { text: '天行健，君子以自强不息。', source: '《周易·乾卦》', author: '佚名' },
+  { text: '知者乐水，仁者乐山。', source: '《论语·雍也》', author: '孔子' },
+  { text: '上善若水，水善利万物而不争。', source: '《道德经》第八章', author: '老子' },
+  { text: '路漫漫其修远兮，吾将上下而求索。', source: '《离骚》', author: '屈原' },
+  { text: '不以物喜，不以己悲。', source: '《岳阳楼记》', author: '范仲淹' },
+  { text: '吾生也有涯，而知也无涯。', source: '《庄子·养生主》', author: '庄子' },
+];
+
+const POEM_OF_DAY = {
+  title: '静夜思',
+  author: '李白',
+  dynasty: '唐',
+  lines: ['床前明月光，', '疑是地上霜。', '举头望明月，', '低头思故乡。'],
+};
+
+const CULTURE_CARDS = [
+  { emoji: '🏮', title: '传统节气', subtitle: '谷雨', desc: '春季最后一个节气，雨生百谷' },
+  { emoji: '🎭', title: '今日典故', subtitle: '程门立雪', desc: '尊师重道，虚心求学' },
+  { emoji: '🖌️', title: '汉字溯源', subtitle: '道', desc: '从首从辶，本义为道路引申为规律' },
+  { emoji: '🎵', title: '古乐欣赏', subtitle: '高山流水', desc: '伯牙子期，知音难觅' },
+];
 
 const BANNERS = [
   { title: '经史子集 · 国学经典', subtitle: '千年智慧 一卷在手', color: 'from-amber-700 to-yellow-900' },
@@ -59,6 +85,16 @@ const HomePage = () => {
   const { safeAreaInsets } = useThemeStore();
   const tabBarPadding = useTabBarPadding();
   const [bannerIndex, setBannerIndex] = useState(0);
+  const [quoteIndex, setQuoteIndex] = useState(() => new Date().getDate() % DAILY_QUOTES.length);
+
+  const todayDate = useMemo(() => {
+    const d = new Date();
+    const months = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
+    const days = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
+      '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
+      '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'];
+    return `${months[d.getMonth()]}${days[d.getDate() - 1] ?? ''}`;
+  }, []);
 
   return (
     <div className='bg-base-200 min-h-screen' style={{ paddingTop: safeAreaInsets?.top ?? 0 }}>
@@ -94,6 +130,35 @@ const HomePage = () => {
           </div>
         </div>
 
+        {/* Daily Classic Quote */}
+        <section className='bg-base-100 relative overflow-hidden rounded-xl p-4'>
+          <div className='absolute -right-4 -top-4 text-[80px] leading-none text-amber-100/50'>
+            <MdFormatQuote />
+          </div>
+          <div className='mb-2 flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <span className='rounded bg-amber-700 px-1.5 py-0.5 text-[10px] font-bold text-white'>
+                {_('每日经典')}
+              </span>
+              <span className='text-base-content/30 text-xs'>{todayDate}</span>
+            </div>
+            <button
+              onClick={() => setQuoteIndex((prev) => (prev + 1) % DAILY_QUOTES.length)}
+              className='text-base-content/40 flex items-center gap-0.5 text-xs'
+            >
+              <MdRefresh className='text-sm' />
+              {_('换一句')}
+            </button>
+          </div>
+          <p className='text-base-content relative z-10 my-2 text-lg font-serif leading-relaxed'>
+            「{DAILY_QUOTES[quoteIndex]!.text}」
+          </p>
+          <p className='text-base-content/50 text-xs'>
+            —— {DAILY_QUOTES[quoteIndex]!.author}
+            <span className='text-base-content/30 ml-1'>{DAILY_QUOTES[quoteIndex]!.source}</span>
+          </p>
+        </section>
+
         {/* Category Icons */}
         <div className='flex justify-around'>
           {CATEGORIES.map((cat) => (
@@ -105,6 +170,49 @@ const HomePage = () => {
             </button>
           ))}
         </div>
+
+        {/* Poem of the Day */}
+        <section className='bg-base-100 rounded-xl p-4'>
+          <div className='mb-3 flex items-center justify-between'>
+            <h2 className='text-base font-semibold'>{_('诗词日历')}</h2>
+            <span className='text-base-content/30 text-xs'>{_('每日一首')}</span>
+          </div>
+          <div className='flex gap-4'>
+            <div className='flex flex-col items-center justify-center rounded-lg bg-amber-700 px-3 py-2 text-white'>
+              <span className='text-[10px] text-white/70'>{POEM_OF_DAY.dynasty}</span>
+              <span className='text-lg font-bold'>{_('诗')}</span>
+            </div>
+            <div className='flex-1'>
+              <div className='mb-1 flex items-baseline gap-2'>
+                <h3 className='text-base-content text-sm font-semibold'>{POEM_OF_DAY.title}</h3>
+                <span className='text-base-content/40 text-xs'>
+                  [{POEM_OF_DAY.dynasty}] {POEM_OF_DAY.author}
+                </span>
+              </div>
+              <p className='text-base-content/70 text-sm font-serif leading-relaxed'>
+                {POEM_OF_DAY.lines.join('')}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Culture Cards */}
+        <section>
+          <h2 className='mb-2 text-base font-semibold'>{_('文化长廊')}</h2>
+          <div className='-mx-4 flex gap-3 overflow-x-auto px-4 pb-1'>
+            {CULTURE_CARDS.map((card) => (
+              <div
+                key={card.title}
+                className='bg-base-100 flex w-36 flex-shrink-0 flex-col items-start rounded-xl p-3 shadow-sm'
+              >
+                <span className='text-2xl'>{card.emoji}</span>
+                <span className='text-base-content/40 mt-1 text-[10px]'>{card.title}</span>
+                <h3 className='text-base-content text-sm font-semibold'>{card.subtitle}</h3>
+                <p className='text-base-content/50 mt-0.5 line-clamp-2 text-xs'>{card.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Today's Recommendations - Horizontal Scroll */}
         <section>

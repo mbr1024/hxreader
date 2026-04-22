@@ -39,7 +39,7 @@ interface TabItem {
 const HIDDEN_PATHS = ['/reader', '/auth', '/updater', '/offline'];
 
 const BottomTabBar = () => {
-  const pathname = usePathname();
+  const rawPathname = usePathname();
   const router = useAppRouter();
   const { safeAreaInsets } = useThemeStore();
   const _ = useTranslation();
@@ -81,15 +81,17 @@ const BottomTabBar = () => {
     {
       key: 'profile',
       label: _('My'),
-      path: '/user',
+      path: '/me',
       icon: <MdOutlinePersonOutline />,
       activeIcon: <MdPerson />,
-      match: (p) => p.startsWith('/user'),
+      match: (p) => p.startsWith('/me'),
     },
   ];
 
   if (isDesktop) return null;
-  if (HIDDEN_PATHS.some((p) => pathname.startsWith(p))) return null;
+  if (!rawPathname || HIDDEN_PATHS.some((p) => rawPathname.startsWith(p))) return null;
+
+  const pathname = rawPathname;
 
   return (
     <nav

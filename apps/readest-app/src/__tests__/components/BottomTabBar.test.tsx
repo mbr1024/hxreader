@@ -75,6 +75,20 @@ describe('BottomTabBar', () => {
     expect(mockPush).toHaveBeenCalledWith('/community');
   });
 
+  it('navigates to /me when My tab is clicked', () => {
+    vi.mocked(usePathname).mockReturnValue('/home');
+    const { getByText } = render(<BottomTabBar />);
+    fireEvent.click(getByText('My'));
+    expect(mockPush).toHaveBeenCalledWith('/me');
+  });
+
+  it('highlights My tab on /me path', () => {
+    vi.mocked(usePathname).mockReturnValue('/me');
+    const { getByText } = render(<BottomTabBar />);
+    const myButton = getByText('My').closest('button');
+    expect(myButton?.className).toContain('text-primary');
+  });
+
   it('matches root path as home tab', () => {
     vi.mocked(usePathname).mockReturnValue('/');
     const { getByText } = render(<BottomTabBar />);

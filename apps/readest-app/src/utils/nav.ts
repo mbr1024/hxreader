@@ -124,3 +124,7 @@ export const navigateToCommunity = (router: ReturnType<typeof useRouter>) => {
 export const navigateToVideo = (router: ReturnType<typeof useRouter>) => {
   router.push('/video');
 };
+
+export const navigateToMe = (router: ReturnType<typeof useRouter>) => {
+  router.push('/me');
+};

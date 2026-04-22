@@ -39,7 +39,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setActiveSettingsItemId: (id) => set({ activeSettingsItemId: id }),
 
   applyUILanguage: (uiLanguage?: string) => {
-    const locale = uiLanguage ? uiLanguage : navigator.language;
+    const locale = uiLanguage ? uiLanguage : (navigator.language || 'zh-CN');
     i18n.changeLanguage(locale);
     initDayjs(locale);
   },

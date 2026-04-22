@@ -19,6 +19,7 @@ import { getDirFromUILanguage } from '@/utils/rtl';
 import { DropdownProvider } from '@/context/DropdownContext';
 import { CommandPaletteProvider, CommandPalette } from '@/components/command-palette';
 import AtmosphereOverlay from '@/components/AtmosphereOverlay';
+import BottomTabBar from '@/components/BottomTabBar';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const { envConfig, appService } = useEnv();
@@ -74,6 +75,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
             <DropdownProvider>
               <CommandPaletteProvider>
                 {children}
+                <BottomTabBar />
                 <CommandPalette />
                 <AtmosphereOverlay />
               </CommandPaletteProvider>

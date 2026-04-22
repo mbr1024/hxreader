@@ -34,6 +34,7 @@ import {
 } from '@/libs/payment/stripe/client';
 import LegalLinks from '@/components/LegalLinks';
 import Spinner from '@/components/Spinner';
+import { useTabBarPadding } from '@/components/BottomTabBar';
 import ProfileHeader from './components/Header';
 import UserInfo from './components/UserInfo';
 import UsageStats from './components/UsageStats';
@@ -54,6 +55,7 @@ const ProfilePage = () => {
   const { appService } = useEnv();
   const { token, user, refresh } = useAuth();
   const { safeAreaInsets, isRoundedWindow } = useThemeStore();
+  const tabBarPadding = useTabBarPadding();
 
   const [loading, setLoading] = useState(false);
   const [showEmbeddedCheckout, setShowEmbeddedCheckout] = useState(false);
@@ -255,6 +257,7 @@ const ProfilePage = () => {
         className={clsx('flex h-full w-full flex-col items-center overflow-y-auto')}
         style={{
           paddingTop: `${safeAreaInsets?.top || 0}px`,
+          paddingBottom: tabBarPadding ? `${tabBarPadding}px` : undefined,
         }}
       >
         <ProfileHeader onGoBack={handleGoBack} />

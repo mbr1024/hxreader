@@ -1,7 +1,7 @@
 'use client';
 
-import LibraryPage from './library/page';
+import HomePage from './home/page';
 
-export default function HomePage() {
-  return <LibraryPage />;
+export default function RootPage() {
+  return <HomePage />;
 }

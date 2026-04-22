@@ -35,13 +35,13 @@ export const getLocale = () => {
   const locale = localStorage?.getItem('i18nextLng') || navigator?.language || '';
   // POSIX locale values (e.g. 'C', 'C.UTF-8', 'POSIX') are not valid BCP 47
   // tags and would cause Intl/toLocaleString to throw — fall back to en-US
-  if (!locale || /^(C|POSIX)(\..*)?$/i.test(locale)) return 'en-US';
+  if (!locale || /^(C|POSIX)(\..*)?$/i.test(locale)) return 'zh-CN';
   return locale;
 };
 
 export const getUserLang = () => {
   const locale = getLocale();
-  return locale.split('-')[0] || 'en';
+  return locale.split('-')[0] || 'zh';
 };
 
 export const getTargetLang = () => {
@@ -49,7 +49,7 @@ export const getTargetLang = () => {
   if (locale.startsWith('zh')) {
     return locale === 'zh-Hant' || locale === 'zh-HK' || locale === 'zh-TW' ? 'zh-Hant' : 'zh-Hans';
   }
-  return locale.split('-')[0] || 'en';
+  return locale.split('-')[0] || 'zh';
 };
 
 export const isCJKEnv = () => {

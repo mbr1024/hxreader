@@ -214,7 +214,7 @@ const HomePage = () => {
           </div>
 
           {/* 文化小识 strip */}
-          <div className='flex gap-2 overflow-x-auto'>
+          <div className='flex gap-2 overflow-x-auto scrollbar-none'>
             {CULTURE_TIDBITS.map((c) => (
               <div
                 key={c.label}
@@ -241,7 +241,7 @@ const HomePage = () => {
             </button>
           </div>
           {/* book scroll */}
-          <div className='-mx-4 flex gap-3 overflow-x-auto px-4 pb-3'>
+          <div className='-mx-4 flex gap-3 overflow-x-auto scrollbar-none px-4 pb-3'>
             {RECOMMENDED_BOOKS.map((book) => (
               <div key={book.title} className='w-28 flex-shrink-0'>
                 <div className='bg-base-300 flex aspect-[3/4] items-center justify-center rounded-lg'>
